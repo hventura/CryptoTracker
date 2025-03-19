@@ -1,4 +1,4 @@
-package pt.itbio.cryptotracker.util
+package pt.itbio.cryptotracker.core.domain.util
 
 typealias DomainError = Error
 

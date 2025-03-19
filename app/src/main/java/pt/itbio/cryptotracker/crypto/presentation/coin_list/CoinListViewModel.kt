@@ -34,9 +34,7 @@ class CoinListViewModel(
     private fun loadCoins() {
         viewModelScope.launch {
             _state.update {
-                it.copy(
-                    isLoading = true
-                )
+                it.copy(isLoading = true)
             }
 
             coinDataSource

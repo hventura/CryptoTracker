@@ -13,7 +13,9 @@ import kotlinx.coroutines.launch
 import pt.itbio.cryptotracker.core.domain.util.onError
 import pt.itbio.cryptotracker.core.domain.util.onSuccess
 import pt.itbio.cryptotracker.crypto.domain.CoinDataSource
+import pt.itbio.cryptotracker.crypto.presentation.models.CoinUi
 import pt.itbio.cryptotracker.crypto.presentation.models.toCoinUi
+import java.time.ZonedDateTime
 
 class CoinListViewModel(
     private val coinDataSource: CoinDataSource,
@@ -30,10 +32,29 @@ class CoinListViewModel(
     fun onAction(action: CoinListAction) {
         when (action) {
             is CoinListAction.OnCoinClick -> {
-                _state.update { it.copy(selectedCoin = action.coinUi) }
+                selectCoin(action.coinUi)
             }
 
             is CoinListAction.OnRefresh -> loadCoins()
+        }
+    }
+
+    private fun selectCoin(coinUi: CoinUi) {
+        _state.update { it.copy(selectedCoin = coinUi) }
+
+        viewModelScope.launch {
+            coinDataSource.getCoinHistory(
+                coinId = coinUi.id,
+                start = ZonedDateTime.now().minusDays(5),
+                end = ZonedDateTime.now()
+            )
+                .onSuccess { history ->
+                    println(history)
+                }
+                .onError { error ->
+                    _state.update { it.copy(isLoading = false) }
+                    _events.send(CoinListEvent.Error(error))
+                }
         }
     }
 

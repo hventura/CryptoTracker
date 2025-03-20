@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -24,14 +26,21 @@ android {
     }
 
     buildTypes {
+        val localProperties = rootProject.file("local.properties")
+        val properties = Properties()
+        properties.load(localProperties.inputStream())
+        val api = properties.getProperty("COINCAP_API") ?: ""
+
         debug {
-            buildConfigField("String", "BASE_URL", "\"https://api.coincap.io/v2/\"")
+            buildConfigField("String", "BASE_URL", "\"https://rest.coincap.io/v3/\"")
+            buildConfigField("String", "COINCAP_API", api)
         }
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
-            buildConfigField("String", "BASE_URL", "\"https://api.coincap.io/v2/\"")
+            buildConfigField("String", "BASE_URL", "\"https://rest.coincap.io/v3/\"")
+            buildConfigField("String", "COINCAP_API", api)
         }
     }
     compileOptions {

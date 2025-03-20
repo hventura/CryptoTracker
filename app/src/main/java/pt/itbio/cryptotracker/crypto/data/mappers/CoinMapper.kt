@@ -15,13 +15,15 @@ fun CoinDto.toCoin(): Coin {
         name = name,
         marketCapUsd = marketCapUsd,
         priceUsd = priceUsd,
-        changePercent24Hr = changePercent24Hr
+        changePercent24Hr = changePercent24Hr ?: 0.0
     )
 }
 
 fun CoinPriceDto.toCoinPrice(): CoinPrice {
     return CoinPrice(
         priceUsd = priceUsd,
-        dateTime = Instant.ofEpochMilli(time).atZone(ZoneId.of("UTC"))
+        dateTime = Instant
+            .ofEpochMilli(time)
+            .atZone(ZoneId.systemDefault())
     )
 }

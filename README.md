@@ -29,10 +29,10 @@ Para utilizar a API do CoinCap, é necessário obter uma chave de acesso:
 ## Como Executar o Projeto
 1. Clona este repositório:
    ```sh
-   git clone https://github.com/teu-repo/cryptotracker.git
+   git clone https://github.com/hventura/cryptotracker.git
    ```
 2. Abre o projeto no Android Studio.
-3. Certifica-te de que tens o `local.properties` configurado conforme explicado acima.
+3. Certifica-te de que tens o `local.properties` configurado conforme explicado em cima (Ponto 2 do título 'Configuração da Chave API').
 4. Compila e executa a aplicação num emulador ou dispositivo físico.
 
 ## Contacto
